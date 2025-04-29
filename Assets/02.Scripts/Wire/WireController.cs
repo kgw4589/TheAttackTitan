@@ -1,19 +1,30 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
 public class WireController : MonoBehaviour
 {
-    public Transform teleportCircleUI;
+    public enum HandType
+    {
+        Left,
+        Right
+    }
+
+    // 딕셔너리 사용: HandType -> (Position, Direction) 쌍
+    public static readonly Dictionary<HandType, System.Func<Vector3>> HandPositionDict = new()
+    {
+        { HandType.Left, () => ARAVRInput.LHandPosition },
+        { HandType.Right, () => ARAVRInput.RHandPosition }
+    };
+
+    public static readonly Dictionary<HandType, System.Func<Vector3>> HandDirectionDict = new()
+    {
+        { HandType.Left, () => ARAVRInput.LHandDirection },
+        { HandType.Right, () => ARAVRInput.RHandDirection }
+    };
     
-    private LineRenderer _lr;
     private CharacterController _cc;
 
-    private Vector3 _originScale = new Vector3(0.025f, 0.025f, 0.025f);
-
-    public bool isWarp = false;
-    public float warpTime = 0.2f;
     public PostProcessVolume post;
 
     public BaseWire leftWire;
@@ -21,15 +32,16 @@ public class WireController : MonoBehaviour
 
     private void Start()
     {
-        teleportCircleUI.gameObject.SetActive(false);
-        
-        _lr = GetComponent<LineRenderer>();
         _cc = GetComponent<CharacterController>();
+        
+        leftWire.Initialize(transform);
+        rightWire.Initialize(transform);
     }
 
     private void Update()
     {
-        WireProcess();
+        WireProcess(rightWire);
+        WireProcess(leftWire);
     }
 
     private void WireProcess(BaseWire wire)
@@ -37,21 +49,12 @@ public class WireController : MonoBehaviour
         switch (wire.currentType)
         {
             case BaseWire.WireType.Ready :
-                // wire.Shoot();
+                wire.Shoot();
                 break;
-        }
-    }
-
-    private void Shoot()
-    {
-        if (ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.LTouch))
-        {
-            rightWire.Shoot(ARAVRInput.LHandPosition, ARAVRInput.LHandDirection);
-        }
-
-        if (ARAVRInput.GetDown(ARAVRInput.Button.Two, ARAVRInput.Controller.LTouch))
-        {
-            leftWire.Shoot(ARAVRInput.RHandPosition, ARAVRInput.RHandPosition);
+            
+            case BaseWire.WireType.Attaching :
+                wire.Attached();
+                break;
         }
     }
 }

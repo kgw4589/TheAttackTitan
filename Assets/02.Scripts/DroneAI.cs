@@ -54,7 +54,7 @@ public class DroneAI : MonoBehaviour, IDamagable
     
     private void Update()
     {
-        Debug.Log($"Current State : {_state}");
+        // Debug.Log($"Current State : {_state}");
         switch (_state)
         {
             case DroneState.Idle :
