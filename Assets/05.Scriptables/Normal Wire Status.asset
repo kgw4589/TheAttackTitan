@@ -19,8 +19,8 @@ MonoBehaviour:
   range: 50
   power: 500
   shootDelay: 1
-  maxDistance: 1
+  maxDistance: 2
   minDistance: 1
-  spring: 100
+  spring: 10
   damper: 5
   breakForce: 10000

@@ -11,6 +11,12 @@ public class WireController : MonoBehaviour
     }
 
     // 딕셔너리 사용: HandType -> (Position, Direction) 쌍
+    public static readonly Dictionary<HandType, System.Func<ARAVRInput.Controller>> HandControllerDict = new()
+    {
+        { HandType.Left, () => ARAVRInput.Controller.LTouch },
+        { HandType.Right, () => ARAVRInput.Controller.RTouch }
+    };
+    
     public static readonly Dictionary<HandType, System.Func<Vector3>> HandPositionDict = new()
     {
         { HandType.Left, () => ARAVRInput.LHandPosition },
@@ -22,8 +28,6 @@ public class WireController : MonoBehaviour
         { HandType.Left, () => ARAVRInput.LHandDirection },
         { HandType.Right, () => ARAVRInput.RHandDirection }
     };
-    
-    private CharacterController _cc;
 
     public PostProcessVolume post;
 
@@ -32,8 +36,6 @@ public class WireController : MonoBehaviour
 
     private void Start()
     {
-        _cc = GetComponent<CharacterController>();
-        
         leftWire.Initialize(transform);
         rightWire.Initialize(transform);
     }

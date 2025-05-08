@@ -8,12 +8,10 @@ public class NormalWire : BaseWire
     
     public override void Shoot()
     {
-        // handType에 맞는 Position과 Direction 가져오기
-        Vector3 handPosition = WireController.HandPositionDict[myHandType]();  // 여기서 항상 최신 값이 반환됨
-        Vector3 handDirection = WireController.HandDirectionDict[myHandType]();  // 여기도 최신 값 반환
+        Vector3 handPosition = WireController.HandPositionDict[myHandType]();
+        Vector3 handDirection = WireController.HandDirectionDict[myHandType]();
 
-        if (ARAVRInput.GetDown(ARAVRInput.Button.HandTrigger, ARAVRInput.Controller.LTouch)
-            || ARAVRInput.GetDown(ARAVRInput.Button.HandTrigger, ARAVRInput.Controller.RTouch))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.HandTrigger, WireController.HandControllerDict[myHandType]()))
         {
             currentType = WireType.Shooting;
             ShootWire(handPosition, handDirection);
@@ -37,8 +35,9 @@ public class NormalWire : BaseWire
             LineRenderer.SetPosition(0, position);
             LineRenderer.SetPosition(1, attachPoint);
             
-            _sj = gameObject.AddComponent<SpringJoint>();
+            _sj = Player.gameObject.AddComponent<SpringJoint>();
             _sj.autoConfigureConnectedAnchor = false;
+            _sj.anchor = Vector3.zero;
             _sj.connectedAnchor = attachPoint;
             
             _sj.maxDistance = myStatus.maxDistance;
@@ -70,8 +69,7 @@ public class NormalWire : BaseWire
     
     public override void Attached()
     {
-        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger, ARAVRInput.Controller.LTouch)
-            || ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger, ARAVRInput.Controller.RTouch))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.IndexTrigger, WireController.HandControllerDict[myHandType]()))
         {
             Collect();
         }
@@ -83,7 +81,7 @@ public class NormalWire : BaseWire
     
     private void DrawRope()
     {
-        LineRenderer.SetPosition(0, transform.position);
+        LineRenderer.SetPosition(0, WireController.HandPositionDict[myHandType]() + Vector3.down);
         //
         // if (_tankInput.OnRightMouseDown && !_isDash)
         // {
@@ -97,7 +95,7 @@ public class NormalWire : BaseWire
         currentType = WireType.Collecting;
         Debug.Log($"상태 변경 {currentType}");
         
-        var springJoints = GetComponents<SpringJoint>();
+        SpringJoint[] springJoints = Player.GetComponents<SpringJoint>();
         for (int i = 0; i < springJoints.Length; i++)
         {
             Destroy(springJoints[i]);

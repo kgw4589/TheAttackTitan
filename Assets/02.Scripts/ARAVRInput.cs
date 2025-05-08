@@ -278,8 +278,6 @@ public static class ARAVRInput
 #if PC
         return Input.GetAxis(axis);
 #elif Oculus
-        return Input.GetAxis(axis);
-        
         if (axis == "Horizontal")
         {
             return OVRInput.Get(OVRInput.Axis2D.PrimaryThumbstick, (OVRInput.Controller)hand).x;

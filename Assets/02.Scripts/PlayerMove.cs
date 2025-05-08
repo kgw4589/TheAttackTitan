@@ -5,17 +5,12 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public float speed = 5f;
-    public float gravity = -20f;
-    public float jumpPower = 10f;
-
-    private float _yVelocity = 0f;
     
-    private CharacterController _cc;
+    private Rigidbody _rigidbody;
 
     private void Start()
     {
-        _cc = GetComponent<CharacterController>();
-        
+        _rigidbody = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -26,20 +21,6 @@ public class PlayerMove : MonoBehaviour
         Vector3 dir = new Vector3(h, 0, v).normalized;
         dir = Camera.main.transform.TransformDirection(dir);
         
-        _yVelocity += gravity * Time.deltaTime;
-        
-        if (_cc.isGrounded)
-        {
-            _yVelocity = 0f;
-        }
-
-        if (ARAVRInput.GetDown(ARAVRInput.Button.Two, ARAVRInput.Controller.RTouch))
-        {
-            _yVelocity = jumpPower;
-        }
-
-        dir.y = _yVelocity;
-
-        _cc.Move(dir * (speed * Time.deltaTime));
+        _rigidbody.MovePosition(transform.position + dir * (speed * Time.deltaTime));
     }
 }
