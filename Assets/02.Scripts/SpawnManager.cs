@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class DroneManager : MonoBehaviour
+public class SpawnManager : MonoBehaviour
 {
     private float _minTime = 1f;
     private float _maxTime = 5f;
@@ -9,7 +10,7 @@ public class DroneManager : MonoBehaviour
     private float _currentTime;
 
     [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private GameObject droneFactory;
+    [SerializeField] private GameObject monsterFactory;
 
     private void Start()
     {
@@ -33,7 +34,7 @@ public class DroneManager : MonoBehaviour
 
         int randomIndex = Random.Range(0, spawnPoints.Length);
 
-        GameObject drone = Instantiate(droneFactory, transform);
+        GameObject drone = Instantiate(monsterFactory, transform);
         drone.transform.position = spawnPoints[randomIndex].position;
         drone.SetActive(true);
     }

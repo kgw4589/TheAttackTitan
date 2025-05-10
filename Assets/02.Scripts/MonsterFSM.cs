@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class DroneAI : MonoBehaviour, IDamagable
+public class MonsterFSM : MonoBehaviour, IDamagable
 {
-    private enum DroneState
+    private enum MonsterState
     {
         Idle,
         Move,
@@ -14,7 +14,7 @@ public class DroneAI : MonoBehaviour, IDamagable
         Die,
     }
 
-    private DroneState _state = DroneState.Idle;
+    private MonsterState _state = MonsterState.Idle;
 
     public float idleDelayTime = 2f;
 
@@ -57,23 +57,23 @@ public class DroneAI : MonoBehaviour, IDamagable
         // Debug.Log($"Current State : {_state}");
         switch (_state)
         {
-            case DroneState.Idle :
+            case MonsterState.Idle :
                 Idle();
                 break;
             
-            case DroneState.Move :
+            case MonsterState.Move :
                 Move();
                 break;
             
-            case DroneState.Attack :
+            case MonsterState.Attack :
                 Attack();
                 break;
             
-            case DroneState.Damage :
+            case MonsterState.Damage :
                 // Damage();
                 break;
             
-            case DroneState.Die :
+            case MonsterState.Die :
                 Die();
                 break;
         }
@@ -84,7 +84,7 @@ public class DroneAI : MonoBehaviour, IDamagable
         _currentTime += Time.deltaTime;
         if (_currentTime > idleDelayTime)
         {
-            _state = DroneState.Move;
+            _state = MonsterState.Move;
             _agent.enabled = true;
         }
     }
@@ -95,7 +95,7 @@ public class DroneAI : MonoBehaviour, IDamagable
 
         if (Vector3.Distance(transform.position, _tower.position) < attackRange)
         {
-            _state = DroneState.Attack;
+            _state = MonsterState.Attack;
             _agent.enabled = false;
         }
     }
@@ -127,7 +127,7 @@ public class DroneAI : MonoBehaviour, IDamagable
             return;
         }
         
-        _state = DroneState.Damage;
+        _state = MonsterState.Damage;
 
         StopAllCoroutines();
         StartCoroutine(Damage());
@@ -143,7 +143,7 @@ public class DroneAI : MonoBehaviour, IDamagable
         yield return new WaitForSeconds(0.1f);
         _meshRenderer.material.color = originColor;
 
-        _state = DroneState.Idle;
+        _state = MonsterState.Idle;
 
         _currentTime = 0;
     }
