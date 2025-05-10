@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-[CreateAssetMenu(fileName = "New Status", menuName = "Status/New Wire Status")]
+[CreateAssetMenu(fileName = "New Wire Status", menuName = "Scriptable/Status/New Wire Status")]
 public class WireStatusScriptable : ScriptableObject
 {
     public LayerMask attachableLayers;

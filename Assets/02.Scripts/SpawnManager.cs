@@ -1,41 +1,48 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-public class SpawnManager : MonoBehaviour
+public class SpawnManager
 {
-    private float _minTime = 1f;
-    private float _maxTime = 5f;
+    private GameObject[] _spawnPoints; 
+    private List<GameObject> _scheduledMonster = new List<GameObject>();
 
-    private float _createTime;
-    private float _currentTime;
-
-    [SerializeField] private Transform[] spawnPoints;
-    [SerializeField] private GameObject monsterFactory;
-
-    private void Start()
+    public void Init()
     {
-        _createTime = Random.Range(_minTime, _maxTime);
+        _spawnPoints = GameObject.FindGameObjectsWithTag("SpawnPoint");
     }
     
-    private void Update()
+    public void StartWave(WaveInfo waveInfo)
     {
-        _currentTime += Time.deltaTime;
-        
-        if (_createTime < _currentTime)
+        for (int i = 0; i < waveInfo.monsters.Count; i++)
         {
-            SpawnDrone();
+            GameObject monster = waveInfo.monsters[i].monster;
+            
+            for (int j = 0; j < waveInfo.monsters[i].count; j++)
+            {
+                _scheduledMonster.Add(monster);
+            }
+        }
+
+        GameManager.Instance.StartCoroutine(SpawnMonster(waveInfo.monsterCreateTimeRange));
+    }
+    
+    private IEnumerator SpawnMonster(Vector2 createTimeRange)
+    {
+        for (int i = 0; i < _scheduledMonster.Count; i++)
+        {
+            int randomIndex = Random.Range(0, _spawnPoints.Length);
+
+            GameObject monster = Object.Instantiate(_scheduledMonster[i], _spawnPoints[randomIndex].transform);
+            monster.transform.position = _spawnPoints[randomIndex].transform.position;
+            monster.SetActive(true);
+
+            yield return new WaitForSeconds(GetCreateTime(createTimeRange));
         }
     }
 
-    private void SpawnDrone()
+    private float GetCreateTime(Vector2 range)
     {
-        _currentTime = 0;
-        _createTime = Random.Range(_minTime, _maxTime);
-
-        int randomIndex = Random.Range(0, spawnPoints.Length);
-
-        GameObject drone = Instantiate(monsterFactory, transform);
-        drone.transform.position = spawnPoints[randomIndex].position;
-        drone.SetActive(true);
+        return Random.Range(range.x, range.y);
     }
 }

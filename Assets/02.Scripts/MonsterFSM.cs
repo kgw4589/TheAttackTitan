@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 public class MonsterFSM : MonoBehaviour, IDamagable
 {
@@ -16,17 +17,11 @@ public class MonsterFSM : MonoBehaviour, IDamagable
 
     private MonsterState _state = MonsterState.Idle;
 
-    public float idleDelayTime = 2f;
+    public MonsterStatusScriptable monsterStatus;
 
     private float _currentTime = 0;
 
-    public float moveSpeed = 1f;
-
-    public float attackRange = 3f;
-    public float attackDelayTime = 1f;
-    private int _attackDamage = 1;
-
-    [SerializeField] private float hp = 3f;
+    private float _currentHp;
 
     private Transform _tower;
     private NavMeshAgent _agent;
@@ -43,13 +38,15 @@ public class MonsterFSM : MonoBehaviour, IDamagable
         _agent = GetComponent<NavMeshAgent>();
         _agent.enabled = false;
 
-        _agent.speed = moveSpeed;
+        _agent.speed = monsterStatus.moveSpeed;
 
         _meshRenderer = GetComponentInChildren<MeshRenderer>();
 
         _explosion = GameObject.Find("Explosion").transform;
         _expEffect = _explosion.GetComponent<ParticleSystem>();
         _expAudio = _explosion.GetComponent<AudioSource>();
+
+        _currentHp = monsterStatus.maxHp;
     }
     
     private void Update()
@@ -82,7 +79,7 @@ public class MonsterFSM : MonoBehaviour, IDamagable
     private void Idle()
     {
         _currentTime += Time.deltaTime;
-        if (_currentTime > idleDelayTime)
+        if (_currentTime > monsterStatus.idleDelayTime)
         {
             _state = MonsterState.Move;
             _agent.enabled = true;
@@ -93,7 +90,7 @@ public class MonsterFSM : MonoBehaviour, IDamagable
     {
         _agent.SetDestination(_tower.position);
 
-        if (Vector3.Distance(transform.position, _tower.position) < attackRange)
+        if (Vector3.Distance(transform.position, _tower.position) < monsterStatus.attackRange)
         {
             _state = MonsterState.Attack;
             _agent.enabled = false;
@@ -104,19 +101,19 @@ public class MonsterFSM : MonoBehaviour, IDamagable
     {
         _currentTime += Time.deltaTime;
 
-        if (_currentTime > attackDelayTime)
+        if (_currentTime > monsterStatus.attackDelayTime)
         {
             _currentTime = 0f;
 
-            Tower.Instance.CurrentHp -= _attackDamage;
+            Tower.Instance.CurrentHp -= monsterStatus.attackDamage;
         }
     }
 
     public void DamageAction(int damage, Vector3 hitPoint, Vector3 normal)
     {
-        hp--;
+        _currentHp--;
 
-        if (hp <= 0)
+        if (_currentHp <= 0)
         {
             _explosion.position = transform.position;
             _expEffect.Play();
