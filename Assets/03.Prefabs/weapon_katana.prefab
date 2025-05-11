@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 3995378206859045881}
   - component: {fileID: 2115494022007839120}
   - component: {fileID: 7967254286670448071}
+  - component: {fileID: 5760212376619897134}
+  - component: {fileID: -7873874106743784931}
   m_Layer: 0
   m_Name: weapon_katana
   m_TagString: Untagged
@@ -83,3 +85,40 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &5760212376619897134
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797432011344770548}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.12, y: 1.2, z: 0.08583538}
+  m_Center: {x: 0, y: 0.56, z: -0.0065978407}
+--- !u!114 &-7873874106743784931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1797432011344770548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f2cba29a53112747823da4f481e2a1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponInfo: {fileID: 11400000, guid: aae1cef57f919f64b9f11fadd38f73ad, type: 2}
+  hittableLayer:
+    serializedVersion: 2
+    m_Bits: 0

@@ -6,6 +6,8 @@ public class GameManager : Singleton<GameManager>
 {
     public WaveScriptable wave;
     public int currentWave = 0;
+
+    public int leftTitan = 0;
     
     private SpawnManager _spawnManager = new SpawnManager();
 

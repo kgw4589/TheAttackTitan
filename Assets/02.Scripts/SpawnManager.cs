@@ -21,6 +21,7 @@ public class SpawnManager
             for (int j = 0; j < waveInfo.monsters[i].count; j++)
             {
                 _scheduledMonster.Add(monster);
+                ++GameManager.Instance.leftTitan;
             }
         }
 

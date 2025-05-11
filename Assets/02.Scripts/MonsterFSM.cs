@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public class MonsterFSM : MonoBehaviour, IDamagable
+public class MonsterFSM : MonoBehaviour, ITitan
 {
     private enum MonsterState
     {
@@ -12,6 +12,7 @@ public class MonsterFSM : MonoBehaviour, IDamagable
         Move,
         Attack,
         Damage,
+        Rest,
         Die,
     }
 
@@ -19,14 +20,13 @@ public class MonsterFSM : MonoBehaviour, IDamagable
 
     public MonsterStatusScriptable monsterStatus;
 
-    private float _currentTime = 0;
-
     private float _currentHp;
+
+    private float _currentTime = 0;
 
     private Transform _tower;
     private NavMeshAgent _agent;
-    private MeshRenderer _meshRenderer;
-
+    
     private Transform _explosion;
     private ParticleSystem _expEffect;
     private AudioSource _expAudio;
@@ -39,8 +39,6 @@ public class MonsterFSM : MonoBehaviour, IDamagable
         _agent.enabled = false;
 
         _agent.speed = monsterStatus.moveSpeed;
-
-        _meshRenderer = GetComponentInChildren<MeshRenderer>();
 
         _explosion = GameObject.Find("Explosion").transform;
         _expEffect = _explosion.GetComponent<ParticleSystem>();
@@ -68,6 +66,9 @@ public class MonsterFSM : MonoBehaviour, IDamagable
             
             case MonsterState.Damage :
                 // Damage();
+                break;
+            
+            case MonsterState.Rest :
                 break;
             
             case MonsterState.Die :
@@ -108,18 +109,16 @@ public class MonsterFSM : MonoBehaviour, IDamagable
             Tower.Instance.CurrentHp -= monsterStatus.attackDamage;
         }
     }
-
-    public void DamageAction(int damage, Vector3 hitPoint, Vector3 normal)
+    
+    public void ScratchBody()
     {
         _currentHp--;
 
         if (_currentHp <= 0)
         {
-            _explosion.position = transform.position;
-            _expEffect.Play();
-            _expAudio.Play();
+            _state = MonsterState.Rest;
 
-            Destroy(gameObject);
+            StartCoroutine(Rest());
             
             return;
         }
@@ -129,24 +128,44 @@ public class MonsterFSM : MonoBehaviour, IDamagable
         StopAllCoroutines();
         StartCoroutine(Damage());
     }
-
+    
     private IEnumerator Damage()
     {
         _agent.enabled = false;
-
-        Color originColor = _meshRenderer.material.color;
-
-        _meshRenderer.material.color = Color.red;
+        
         yield return new WaitForSeconds(0.1f);
-        _meshRenderer.material.color = originColor;
 
         _state = MonsterState.Idle;
 
         _currentTime = 0;
     }
 
+    private IEnumerator Rest()
+    {
+        _agent.enabled = false;
+
+        yield return new WaitForSeconds(monsterStatus.restTime);
+
+        _currentHp = monsterStatus.maxHp;
+        _agent.enabled = true;
+
+        _state = MonsterState.Idle;
+    }
+
+    public void SliceNeck()
+    {
+        _currentHp = 0;
+
+        _state = MonsterState.Die;
+    }
+
+
     private void Die()
     {
-        
+        _explosion.position = transform.position;
+        _expEffect.Play();
+        _expAudio.Play();
+
+        Destroy(gameObject);
     }
 }

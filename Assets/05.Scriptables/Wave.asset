@@ -15,6 +15,6 @@ MonoBehaviour:
   waves:
   - monsters:
     - monster: {fileID: 2880161073967909946, guid: c6b24f73690bc814e9f85ee62ad5d741, type: 3}
-      count: 10
+      count: 1
     waveStartDelay: 3
     monsterCreateTimeRange: {x: 1, y: 3}
