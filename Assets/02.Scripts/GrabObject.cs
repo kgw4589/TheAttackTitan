@@ -8,7 +8,7 @@ public class GrabObject : MonoBehaviour
     private GameObject _grabbedObject;
 
     public LayerMask grabbedLayer;
-    public float grabRange = 0.2f;
+    public float grabRange = 5f;
 
     private Vector3 _prevPos;
     public float throwPower = 80f;
@@ -18,7 +18,9 @@ public class GrabObject : MonoBehaviour
 
     public bool isRemoteGrab = true;
 
-    public float remoteGrabDistance = 20f;
+    public float remoteGrabDistance = 50f;
+
+    private IGrabable _grabable;
     
     private void Update()
     {
@@ -34,7 +36,7 @@ public class GrabObject : MonoBehaviour
 
     private void TryGrab()
     {
-        if (ARAVRInput.GetDown(ARAVRInput.Button.HandTrigger, ARAVRInput.Controller.RTouch))
+        if (ARAVRInput.GetDown(ARAVRInput.Button.Two, ARAVRInput.Controller.RTouch))
         {
             if (isRemoteGrab)
             {
@@ -45,6 +47,10 @@ public class GrabObject : MonoBehaviour
                 {
                     _isGrabbing = true;
                     _grabbedObject = hitInfo.transform.gameObject;
+                    
+                    Debug.Log(_grabbedObject);
+                    _grabable = _grabbedObject.transform.root.GetComponent<IGrabable>();
+                    _grabable?.Grabbed();
 
                     StartCoroutine(GrabbingAnimation());
 
@@ -76,7 +82,7 @@ public class GrabObject : MonoBehaviour
 
                 _grabbedObject = hitObjects[closest].gameObject;
                 _grabbedObject.transform.parent = ARAVRInput.RHand;
-                _grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
+                // _grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
 
                 _prevPos = ARAVRInput.RHandPosition;
                 _prevRot = ARAVRInput.RHand.rotation;
@@ -99,7 +105,7 @@ public class GrabObject : MonoBehaviour
         _prevRot = ARAVRInput.RHand.rotation;
 
         Vector3 startLocation = _grabbedObject.transform.position;
-        Vector3 targetLocation = ARAVRInput.RHandPosition + ARAVRInput.RHandDirection * 0.1f;
+        Vector3 targetLocation = ARAVRInput.RHandPosition + ARAVRInput.RHandDirection * 0.3f;
 
         float elapsedRate = currentTime / finishTime;
         while (elapsedRate < 1)
@@ -129,23 +135,25 @@ public class GrabObject : MonoBehaviour
         Quaternion deltaRotation = ARAVRInput.RHand.rotation * Quaternion.Inverse(_prevRot);
         _prevRot = ARAVRInput.RHand.rotation;
         
-        if (ARAVRInput.GetUp(ARAVRInput.Button.HandTrigger, ARAVRInput.Controller.RTouch))
+        if (ARAVRInput.GetUp(ARAVRInput.Button.Two, ARAVRInput.Controller.RTouch))
         {
             _isGrabbing = false;
 
-            Rigidbody grabbedRigid = _grabbedObject.GetComponent<Rigidbody>();
+            // Rigidbody grabbedRigid = _grabbedObject.GetComponent<Rigidbody>();
+            _grabable?.UnGrabbed();
+            _grabable = null;
             
-            grabbedRigid.isKinematic = false;
+            // grabbedRigid.isKinematic = false;
             _grabbedObject.transform.parent = null;
 
-            grabbedRigid.velocity = throwDirection * throwPower;
+            // grabbedRigid.velocity = throwDirection * throwPower;
             
             // 각속도 = (1/dt) * dθ (특정 축 기준 변위 각도)
-            float angle;
-            Vector3 axis;
-            deltaRotation.ToAngleAxis(out angle, out axis);
-            Vector3 angularVelocity = (1.0f / Time.deltaTime) * angle * axis;
-            grabbedRigid.angularVelocity = angularVelocity;
+            // float angle;
+            // Vector3 axis;
+            // deltaRotation.ToAngleAxis(out angle, out axis);
+            // Vector3 angularVelocity = (1.0f / Time.deltaTime) * angle * axis;
+            // grabbedRigid.angularVelocity = angularVelocity;
             
             _grabbedObject = null;
         }

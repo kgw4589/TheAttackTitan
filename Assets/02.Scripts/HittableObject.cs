@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HittableObject : MonoBehaviour, IDamagable
@@ -20,7 +17,7 @@ public class HittableObject : MonoBehaviour, IDamagable
 
     private void Awake()
     {
-        _iTitan = GetComponent<ITitan>();
+        _iTitan = transform.root.GetComponent<ITitan>();
     }
 
     public void DamageAction(int damage, Vector3 hitPoint, Vector3 normal)

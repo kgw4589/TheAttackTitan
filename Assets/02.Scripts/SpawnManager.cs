@@ -14,6 +14,8 @@ public class SpawnManager
     
     public void StartWave(WaveInfo waveInfo)
     {
+        GameManager.Instance.LeftTitan += waveInfo.monsters.Count;
+        
         for (int i = 0; i < waveInfo.monsters.Count; i++)
         {
             GameObject monster = waveInfo.monsters[i].monster;
@@ -21,7 +23,6 @@ public class SpawnManager
             for (int j = 0; j < waveInfo.monsters[i].count; j++)
             {
                 _scheduledMonster.Add(monster);
-                ++GameManager.Instance.leftTitan;
             }
         }
 
@@ -34,7 +35,7 @@ public class SpawnManager
         {
             int randomIndex = Random.Range(0, _spawnPoints.Length);
 
-            GameObject monster = Object.Instantiate(_scheduledMonster[i], _spawnPoints[randomIndex].transform);
+            GameObject monster = Object.Instantiate(_scheduledMonster[i]);
             monster.transform.position = _spawnPoints[randomIndex].transform.position;
             monster.SetActive(true);
 

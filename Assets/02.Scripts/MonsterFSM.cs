@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
 
-public class MonsterFSM : MonoBehaviour, ITitan
+public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 {
     private enum MonsterState
     {
@@ -13,6 +13,7 @@ public class MonsterFSM : MonoBehaviour, ITitan
         Attack,
         Damage,
         Rest,
+        Grabbed,
         Die,
     }
 
@@ -20,6 +21,9 @@ public class MonsterFSM : MonoBehaviour, ITitan
 
     public MonsterStatusScriptable monsterStatus;
 
+    public GameObject originObject;
+    public GameObject ragDollObject;
+    
     private float _currentHp;
 
     private float _currentTime = 0;
@@ -39,6 +43,7 @@ public class MonsterFSM : MonoBehaviour, ITitan
         _tower = GameObject.FindWithTag("Tower").transform;
 
         _animator = GetComponent<Animator>();
+        
         _agent = GetComponent<NavMeshAgent>();
         _agent.enabled = false;
 
@@ -73,6 +78,9 @@ public class MonsterFSM : MonoBehaviour, ITitan
                 break;
             
             case MonsterState.Rest :
+                break;
+            
+            case MonsterState.Grabbed :
                 break;
             
             case MonsterState.Die :
@@ -162,6 +170,29 @@ public class MonsterFSM : MonoBehaviour, ITitan
         _state = MonsterState.Idle;
         _animator.SetTrigger("RestToIdle");
     }
+    
+    public void Grabbed()
+    {
+        _state = MonsterState.Grabbed;
+
+        originObject.SetActive(false);
+        ragDollObject.SetActive(true);
+        
+        _animator.enabled = false;
+
+        _agent.enabled = false;
+    }
+
+    public void UnGrabbed()
+    {
+        originObject.SetActive(true);
+        ragDollObject.SetActive(false);
+        
+        _agent.enabled = true;
+        _animator.enabled = true;
+
+        _state = MonsterState.Idle;
+    }
 
     public void SliceNeck()
     {
@@ -174,6 +205,7 @@ public class MonsterFSM : MonoBehaviour, ITitan
     private void Die()
     {
         GameManager.Instance.gameOverAction -= GameOverAction;
+        GameManager.Instance.LeftTitan--;
         
         _explosion.position = transform.position;
         _expEffect.Play();
@@ -184,6 +216,6 @@ public class MonsterFSM : MonoBehaviour, ITitan
 
     private void GameOverAction()
     {
-        
+        _state = default;
     }
 }
