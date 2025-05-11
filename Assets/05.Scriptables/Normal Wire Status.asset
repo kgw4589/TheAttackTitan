@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attachableLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 33570359
   wirePointOriginScale: {x: 0.025, y: 0.025, z: 0.025}
   range: 50
   power: 500

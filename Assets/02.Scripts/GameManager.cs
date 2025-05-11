@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class GameManager : Singleton<GameManager>
     public int leftTitan = 0;
     
     private SpawnManager _spawnManager = new SpawnManager();
+
+    public Action gameOverAction;
 
     private void Awake()
     {
@@ -29,5 +32,10 @@ public class GameManager : Singleton<GameManager>
             
             _spawnManager.StartWave(wave.waves[currentWave++]);
         }
+    }
+
+    public void GameOver()
+    {
+        gameOverAction.Invoke();
     }
 }

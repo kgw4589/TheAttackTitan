@@ -27,7 +27,7 @@ public class Tower : MonoBehaviour
 
             if (_currentHp <= 0)
             {
-                Destroy(gameObject);
+                GameManager.Instance.GameOver();
             }
         }
     }

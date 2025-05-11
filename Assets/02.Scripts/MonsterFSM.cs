@@ -30,11 +30,15 @@ public class MonsterFSM : MonoBehaviour, ITitan
     private Transform _explosion;
     private ParticleSystem _expEffect;
     private AudioSource _expAudio;
+    private Animator _animator;
 
     private void Start()
     {
+        GameManager.Instance.gameOverAction += GameOverAction;
+        
         _tower = GameObject.FindWithTag("Tower").transform;
 
+        _animator = GetComponent<Animator>();
         _agent = GetComponent<NavMeshAgent>();
         _agent.enabled = false;
 
@@ -83,6 +87,8 @@ public class MonsterFSM : MonoBehaviour, ITitan
         if (_currentTime > monsterStatus.idleDelayTime)
         {
             _state = MonsterState.Move;
+            _animator.SetTrigger("IdleToMove");
+            
             _agent.enabled = true;
         }
     }
@@ -94,6 +100,7 @@ public class MonsterFSM : MonoBehaviour, ITitan
         if (Vector3.Distance(transform.position, _tower.position) < monsterStatus.attackRange)
         {
             _state = MonsterState.Attack;
+            
             _agent.enabled = false;
         }
     }
@@ -142,6 +149,8 @@ public class MonsterFSM : MonoBehaviour, ITitan
 
     private IEnumerator Rest()
     {
+        _animator.SetTrigger("MoveToRest");
+        
         _agent.enabled = false;
 
         yield return new WaitForSeconds(monsterStatus.restTime);
@@ -149,7 +158,9 @@ public class MonsterFSM : MonoBehaviour, ITitan
         _currentHp = monsterStatus.maxHp;
         _agent.enabled = true;
 
+        _currentTime = 0f;
         _state = MonsterState.Idle;
+        _animator.SetTrigger("RestToIdle");
     }
 
     public void SliceNeck()
@@ -162,10 +173,17 @@ public class MonsterFSM : MonoBehaviour, ITitan
 
     private void Die()
     {
+        GameManager.Instance.gameOverAction -= GameOverAction;
+        
         _explosion.position = transform.position;
         _expEffect.Play();
         _expAudio.Play();
 
         Destroy(gameObject);
+    }
+
+    private void GameOverAction()
+    {
+        
     }
 }
