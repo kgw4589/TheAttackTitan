@@ -8,6 +8,7 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 {
     private enum MonsterState
     {
+        None,
         Idle,
         Move,
         Attack,
@@ -216,6 +217,8 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
     private void GameOverAction()
     {
-        _state = default;
+        StopAllCoroutines();
+        _state = MonsterState.None;
+        _agent.enabled = false;
     }
 }

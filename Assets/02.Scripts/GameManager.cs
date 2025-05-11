@@ -8,6 +8,10 @@ public class GameManager : Singleton<GameManager>
 {
     public WaveScriptable wave;
     
+    public Text leftTitanText;
+    public Text waveText;
+    public Text resultText;
+    
     private int _currentWave = 0;
 
     public int CurrentWave
@@ -25,9 +29,6 @@ public class GameManager : Singleton<GameManager>
     }
 
     private int _leftTitan = 0;
-
-    public Text leftTitanText;
-    public Text waveText;
 
     public int LeftTitan
     {
@@ -49,7 +50,7 @@ public class GameManager : Singleton<GameManager>
                 }
                 else
                 {
-                    GameOver();
+                    WinGame();
                 }
             }
         }
@@ -81,8 +82,19 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
-    public void GameOver()
+    public void WinGame()
     {
-        gameOverAction.Invoke();
+        gameOverAction?.Invoke();
+
+        resultText.text = "Victory";
+        resultText.gameObject.SetActive(true);
+    }
+
+    public void LoseGame()
+    {
+        gameOverAction?.Invoke();
+        
+        resultText.text = "Lose";
+        resultText.gameObject.SetActive(true);
     }
 }

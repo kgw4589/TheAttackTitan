@@ -12,7 +12,7 @@ public class Tower : MonoBehaviour
 
     private float _damageTime = 0.1f;
 
-    private const int InitialHp = 10;
+    private const int InitialHp = 1;
     private int _currentHp;
 
     public int CurrentHp
@@ -24,10 +24,13 @@ public class Tower : MonoBehaviour
             
             StopAllCoroutines();
             StartCoroutine(DamageAction());
+            
+            Debug.Log(+_currentHp);
 
             if (_currentHp <= 0)
             {
-                GameManager.Instance.GameOver();
+                Destroy(gameObject);
+                GameManager.Instance.LoseGame();
             }
         }
     }
