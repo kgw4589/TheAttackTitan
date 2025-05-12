@@ -24,7 +24,8 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
     public GameObject originObject;
     public GameObject ragDollObject;
-    
+
+    private int _leftLife = 1;
     private float _currentHp;
 
     private float _currentTime = 0;
@@ -34,7 +35,7 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
     
     private Transform _explosion;
     private ParticleSystem _expEffect;
-    private AudioSource _expAudio;
+    private AudioSource _audioSource;
     private Animator _animator;
 
     private void Start()
@@ -52,8 +53,9 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
         _explosion = GameObject.Find("Explosion").transform;
         _expEffect = _explosion.GetComponent<ParticleSystem>();
-        _expAudio = _explosion.GetComponent<AudioSource>();
+        _audioSource = _explosion.GetComponent<AudioSource>();
 
+        _leftLife = monsterStatus.maxLife;
         _currentHp = monsterStatus.maxHp;
     }
     
@@ -85,7 +87,7 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
                 break;
             
             case MonsterState.Die :
-                Die();
+                // Die();
                 break;
         }
     }
@@ -104,6 +106,7 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
     private void Move()
     {
+        _agent.isStopped = false;
         _agent.SetDestination(_tower.position);
 
         if (Vector3.Distance(transform.position, _tower.position) < monsterStatus.attackRange)
@@ -148,6 +151,8 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
     private IEnumerator Damage()
     {
         _agent.enabled = false;
+        _audioSource.clip = monsterStatus.damagedAudio;
+        _audioSource.Play();
         
         yield return new WaitForSeconds(0.1f);
 
@@ -199,26 +204,39 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
     {
         _currentHp = 0;
 
+        if (_leftLife-- > 0)
+        {
+            _state = MonsterState.Rest;
+            StartCoroutine(Rest());
+
+            return;
+        }
+
+        _agent.isStopped = true;
+
         _state = MonsterState.Die;
+        StartCoroutine(Die());
     }
 
 
-    private void Die()
+    private IEnumerator Die()
     {
         GameManager.Instance.gameOverAction -= GameOverAction;
-        GameManager.Instance.LeftTitan--;
         
-        _explosion.position = transform.position;
-        _expEffect.Play();
-        _expAudio.Play();
+        _audioSource.PlayOneShot(monsterStatus.dieAudio);
+        _animator.SetTrigger("Die");
 
+        yield return new WaitForSeconds(monsterStatus.dieLeftTime);
+
+        GameManager.Instance.LeftTitan--;
         Destroy(gameObject);
     }
 
     private void GameOverAction()
     {
-        StopAllCoroutines();
         _state = MonsterState.None;
+        StopAllCoroutines();
         _agent.enabled = false;
+        this.enabled = false;
     }
 }

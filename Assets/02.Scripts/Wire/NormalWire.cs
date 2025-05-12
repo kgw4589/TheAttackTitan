@@ -10,7 +10,7 @@ public class NormalWire : BaseWire
     {
         Vector3 handPosition = WireController.HandPositionDict[myHandType]();
         Vector3 handDirection = WireController.HandDirectionDict[myHandType]();
-
+        
         if (ARAVRInput.GetDown(ARAVRInput.Button.HandTrigger, WireController.HandControllerDict[myHandType]()))
         {
             currentType = WireType.Shooting;
@@ -22,7 +22,7 @@ public class NormalWire : BaseWire
     {
         Ray ray = new Ray(position, direction);
         RaycastHit hitInfo;
-
+        
         if (Physics.Raycast(ray, out hitInfo, myStatus.range, myStatus.attachableLayers))
         {
             wirePointUI.gameObject.SetActive(true);
@@ -31,11 +31,11 @@ public class NormalWire : BaseWire
             wirePointUI.localScale = myStatus.wirePointOriginScale * Mathf.Max(1, hitInfo.distance);
             
             attachPoint = hitInfo.point;
-            LineRenderer.positionCount = 2;  
-            LineRenderer.SetPosition(0, position);
-            LineRenderer.SetPosition(1, attachPoint);
+            lineRenderer.positionCount = 2;  
+            lineRenderer.SetPosition(0, position + new Vector3(0, 2, 0));
+            lineRenderer.SetPosition(1, attachPoint);
             
-            _sj = Player.gameObject.AddComponent<SpringJoint>();
+            _sj = player.gameObject.AddComponent<SpringJoint>();
             _sj.autoConfigureConnectedAnchor = false;
             _sj.anchor = Vector3.zero;
             _sj.connectedAnchor = attachPoint;
@@ -51,7 +51,7 @@ public class NormalWire : BaseWire
         }
         else
         {
-            LineRenderer.positionCount = 0;
+            lineRenderer.positionCount = 0;
 
             wirePointUI.gameObject.SetActive(false);
 
@@ -81,7 +81,7 @@ public class NormalWire : BaseWire
     
     private void DrawRope()
     {
-        LineRenderer.SetPosition(0, WireController.HandPositionDict[myHandType]() + Vector3.down);
+        lineRenderer.SetPosition(0, WireController.HandPositionDict[myHandType]() + Vector3.down);
         //
         // if (_tankInput.OnRightMouseDown && !_isDash)
         // {
@@ -95,12 +95,12 @@ public class NormalWire : BaseWire
         currentType = WireType.Collecting;
         Debug.Log($"상태 변경 {currentType}");
         
-        SpringJoint[] springJoints = Player.GetComponents<SpringJoint>();
+        SpringJoint[] springJoints = player.GetComponents<SpringJoint>();
         for (int i = 0; i < springJoints.Length; i++)
         {
             Destroy(springJoints[i]);
         }
-        LineRenderer.positionCount = 0;
+        lineRenderer.positionCount = 0;
         
         wirePointUI.gameObject.SetActive(false);
         

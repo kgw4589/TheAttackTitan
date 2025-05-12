@@ -34,7 +34,7 @@ public class WireController : MonoBehaviour
     public BaseWire leftWire;
     public BaseWire rightWire;
 
-    private void Start()
+    private void Awake()
     {
         leftWire.Initialize(transform);
         rightWire.Initialize(transform);

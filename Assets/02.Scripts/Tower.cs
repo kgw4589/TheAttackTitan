@@ -25,8 +25,6 @@ public class Tower : MonoBehaviour
             StopAllCoroutines();
             StartCoroutine(DamageAction());
             
-            Debug.Log(+_currentHp);
-
             if (_currentHp <= 0)
             {
                 Destroy(gameObject);

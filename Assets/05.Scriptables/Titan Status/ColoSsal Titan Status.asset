@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d31ac291d44794941888396d87ce1bee, type: 3}
+  m_Name: ColoSsal Titan Status
+  m_EditorClassIdentifier: 
+  maxLife: 5
+  maxHp: 5
+  restTime: 5
+  moveSpeed: 20
+  attackDamage: 3
+  attackRange: 10
+  attackDelayTime: 3
+  idleDelayTime: 5
+  dieLeftTime: 10
+  damagedAudio: {fileID: 8300000, guid: 847730bb3eeb245b3a49862fa9ca3633, type: 3}
+  dieAudio: {fileID: 8300000, guid: 847730bb3eeb245b3a49862fa9ca3633, type: 3}

@@ -87,6 +87,8 @@ public class GameManager : Singleton<GameManager>
         gameOverAction?.Invoke();
 
         resultText.text = "Victory";
+        resultText.color = Color.green;
+        
         resultText.gameObject.SetActive(true);
     }
 
@@ -95,6 +97,8 @@ public class GameManager : Singleton<GameManager>
         gameOverAction?.Invoke();
         
         resultText.text = "Lose";
+        resultText.color = Color.red;
+        
         resultText.gameObject.SetActive(true);
     }
 }
