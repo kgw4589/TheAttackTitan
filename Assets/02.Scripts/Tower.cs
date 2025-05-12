@@ -12,8 +12,10 @@ public class Tower : MonoBehaviour
 
     private float _damageTime = 0.1f;
 
-    private const int InitialHp = 1;
+    private const int InitialHp = 10;
     private int _currentHp;
+
+    public Text towerHpText;
 
     public int CurrentHp
     {
@@ -21,6 +23,13 @@ public class Tower : MonoBehaviour
         set
         {
             _currentHp = value;
+
+            if (_currentHp < 0)
+            {
+                _currentHp = 0;
+            }
+            
+            towerHpText.text = $"타워 체력 : {CurrentHp}";
             
             StopAllCoroutines();
             StartCoroutine(DamageAction());
@@ -46,6 +55,8 @@ public class Tower : MonoBehaviour
         Camera camera = Camera.main;
         
         _currentHp = InitialHp;
+        towerHpText.text = $"타워 체력 : {CurrentHp}";
+        
         float z = camera.nearClipPlane + 0.01f;
 
         damageUI.parent = camera.transform;

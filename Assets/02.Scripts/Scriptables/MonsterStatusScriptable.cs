@@ -11,6 +11,8 @@ public class MonsterStatusScriptable : ScriptableObject
 
     public float restTime = 5f;
 
+    public float ccTime = 1f;
+
     public float moveSpeed = 1f;
 
     public int attackDamage = 1;

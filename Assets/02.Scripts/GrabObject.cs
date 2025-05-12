@@ -11,10 +11,8 @@ public class GrabObject : MonoBehaviour
     public float grabRange = 5f;
 
     private Vector3 _prevPos;
-    public float throwPower = 80f;
 
     private Quaternion _prevRot;
-    public float rotPower = 5f;
 
     public bool isRemoteGrab = true;
 
@@ -45,10 +43,14 @@ public class GrabObject : MonoBehaviour
                 
                 if (Physics.SphereCast(ray, 0.5f, out hitInfo, remoteGrabDistance))
                 {
+                    if (!hitInfo.transform.CompareTag("enemy"))
+                    {
+                        return;
+                    }
+                    
                     _isGrabbing = true;
                     _grabbedObject = hitInfo.transform.gameObject;
                     
-                    Debug.Log(_grabbedObject);
                     _grabable = _grabbedObject.transform.root.GetComponent<IGrabable>();
                     _grabable?.Grabbed();
 

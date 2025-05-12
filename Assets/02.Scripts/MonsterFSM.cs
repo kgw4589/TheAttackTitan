@@ -131,6 +131,11 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
     
     public void ScratchBody()
     {
+        if (_state is MonsterState.None)
+        {
+            return;
+        }
+        
         _currentHp--;
 
         if (_currentHp <= 0)
@@ -154,7 +159,9 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
         _audioSource.clip = monsterStatus.damagedAudio;
         _audioSource.Play();
         
-        yield return new WaitForSeconds(0.1f);
+        _animator.SetTrigger("Idle");
+        
+        yield return new WaitForSeconds(monsterStatus.ccTime);
 
         _state = MonsterState.Idle;
 
@@ -202,6 +209,11 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
     public void SliceNeck()
     {
+        if (_state is MonsterState.None)
+        {
+            return;
+        }
+        
         _currentHp = 0;
 
         if (_leftLife-- > 0)
@@ -211,8 +223,6 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
             return;
         }
-
-        _agent.isStopped = true;
 
         _state = MonsterState.Die;
         StartCoroutine(Die());
