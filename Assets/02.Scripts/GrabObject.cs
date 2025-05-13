@@ -101,10 +101,10 @@ public class GrabObject : MonoBehaviour
         _prevRot = ARAVRInput.RHand.rotation;
 
         Vector3 startLocation = _grabbedObject.transform.position;
-        Vector3 targetLocation = ARAVRInput.RHandPosition + ARAVRInput.RHandDirection * 0.1f;
+        Vector3 targetLocation = ARAVRInput.RHandPosition + ARAVRInput.RHandDirection * 40f;
 
         float elapsedRate = currentTime / finishTime;
-        while (elapsedRate < 1)
+        while (elapsedRate < 0.5)
         {
             currentTime += Time.deltaTime;
             elapsedRate = currentTime / finishTime;

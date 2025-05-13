@@ -41,6 +41,7 @@ public class BaseWire : MonoBehaviour
 
         if (Physics.Raycast(ray, out hitInfo, myStatus.range, myStatus.attachableLayers))
         {
+            directionPoint.gameObject.SetActive(true);
             directionPoint.position = hitInfo.point;
             directionPoint.forward = hitInfo.normal;
         }
@@ -51,7 +52,6 @@ public class BaseWire : MonoBehaviour
 
         if (currentType is WireType.Ready)
         {
-            directionPoint.gameObject.SetActive(true);
             Vector3 startPos = WireController.HandPositionDict[myHandType]();
             Vector3 dir = WireController.HandDirectionDict[myHandType]();
             Vector3 endPos = startPos + dir * myStatus.range;

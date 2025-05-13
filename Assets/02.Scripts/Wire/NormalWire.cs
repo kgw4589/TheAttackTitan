@@ -28,7 +28,6 @@ public class NormalWire : BaseWire
             wirePointUI.gameObject.SetActive(true);
             wirePointUI.position = hitInfo.point;
             wirePointUI.forward = hitInfo.normal;
-            wirePointUI.localScale = myStatus.wirePointOriginScale * Mathf.Max(1, hitInfo.distance);
             
             attachPoint = hitInfo.point;
             lineRenderer.positionCount = 2;  
@@ -36,15 +35,20 @@ public class NormalWire : BaseWire
             lineRenderer.SetPosition(1, attachPoint);
             
             _sj = player.gameObject.AddComponent<SpringJoint>();
-
-            if (hitInfo.collider.TryGetComponent(out Rigidbody rigidbody))
-            {
-                _sj.connectedBody = rigidbody;
-            }
             
             _sj.autoConfigureConnectedAnchor = false;
             _sj.anchor = Vector3.zero;
-            _sj.connectedAnchor = attachPoint;
+
+            if (hitInfo.transform.TryGetComponent(out Rigidbody rigidbody))
+            {
+                _sj.connectedBody = rigidbody;
+                Vector3 localAnchor = rigidbody.transform.InverseTransformPoint(hitInfo.point);
+                _sj.connectedAnchor = localAnchor;
+            }
+            else
+            {
+                _sj.connectedAnchor = attachPoint;
+            }
             
             _sj.maxDistance = myStatus.maxDistance;
             _sj.minDistance = myStatus.minDistance;
@@ -88,6 +92,13 @@ public class NormalWire : BaseWire
     private void DrawRope()
     {
         lineRenderer.SetPosition(0, WireController.HandPositionDict[myHandType]() + Vector3.down);
+
+        if (_sj?.connectedBody)
+        {
+            Vector3 connectedWorldPos = _sj.connectedBody.transform.TransformPoint(_sj.connectedAnchor);
+            lineRenderer.SetPosition(1, connectedWorldPos);
+            wirePointUI.transform.position = connectedWorldPos;
+        }
         //
         // if (_tankInput.OnRightMouseDown && !_isDash)
         // {

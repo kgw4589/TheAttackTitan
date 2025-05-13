@@ -158,8 +158,7 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
     private IEnumerator Damage()
     {
         _agent.enabled = false;
-        _audioSource.clip = monsterStatus.damagedAudio;
-        _audioSource.Play();
+        _audioSource.PlayOneShot(monsterStatus.damagedAudio);
         
         _animator.SetTrigger("Idle");
         
