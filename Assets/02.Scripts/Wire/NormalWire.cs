@@ -36,6 +36,12 @@ public class NormalWire : BaseWire
             lineRenderer.SetPosition(1, attachPoint);
             
             _sj = player.gameObject.AddComponent<SpringJoint>();
+
+            if (hitInfo.collider.TryGetComponent(out Rigidbody rigidbody))
+            {
+                _sj.connectedBody = rigidbody;
+            }
+            
             _sj.autoConfigureConnectedAnchor = false;
             _sj.anchor = Vector3.zero;
             _sj.connectedAnchor = attachPoint;

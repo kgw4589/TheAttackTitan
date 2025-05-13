@@ -15,11 +15,12 @@ MonoBehaviour:
   maxLife: 1
   maxHp: 2
   restTime: 7
-  moveSpeed: 1
+  ccTime: 1
+  moveSpeed: 5
   attackDamage: 1
   attackRange: 10
   attackDelayTime: 1
-  idleDelayTime: 2
+  idleDelayTime: 1
   dieLeftTime: 5
-  damagedAudio: {fileID: 0}
-  dieAudio: {fileID: 0}
+  damagedAudio: {fileID: 8300000, guid: f1fb1c5f73b74476a8044d93a7c2c6bd, type: 3}
+  dieAudio: {fileID: 8300000, guid: 847730bb3eeb245b3a49862fa9ca3633, type: 3}

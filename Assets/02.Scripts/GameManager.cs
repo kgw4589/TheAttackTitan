@@ -46,7 +46,7 @@ public class GameManager : Singleton<GameManager>
             {
                 if (_currentWave < wave.waves.Count)
                 {
-                    StartCoroutine(StartGame());
+                    StartCoroutine(StartWave());
                 }
                 else
                 {
@@ -69,17 +69,19 @@ public class GameManager : Singleton<GameManager>
     
     private void Start()
     {
-        StartCoroutine(StartGame());
+        StartCoroutine(StartWave());
     }
 
-    private IEnumerator StartGame()
+    private IEnumerator StartWave()
     {
-        for (int i = 0; i < wave.waves.Count; i++)
+        yield return new WaitForSeconds(wave.waves[CurrentWave].waveStartDelay);
+
+        for (int i = 0; i < wave.waves[CurrentWave].monsters.Count; i++)
         {
-            yield return new WaitForSeconds(wave.waves[i].waveStartDelay);
-            
-            _spawnManager.StartWave(wave.waves[CurrentWave++]);
+            LeftTitan += wave.waves[CurrentWave].monsters[i].count;
         }
+        
+        _spawnManager.StartWave(wave.waves[CurrentWave++]);
     }
 
     public void WinGame()

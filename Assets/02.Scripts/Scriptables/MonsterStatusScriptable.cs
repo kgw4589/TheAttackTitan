@@ -24,5 +24,6 @@ public class MonsterStatusScriptable : ScriptableObject
     public float dieLeftTime = 5f;
     
     public AudioClip damagedAudio;
+    public AudioClip neckSliceAudio;
     public AudioClip dieAudio;
 }

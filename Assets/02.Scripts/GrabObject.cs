@@ -49,7 +49,7 @@ public class GrabObject : MonoBehaviour
                     }
                     
                     _isGrabbing = true;
-                    _grabbedObject = hitInfo.transform.gameObject;
+                    _grabbedObject = hitInfo.transform.root.gameObject;
                     
                     _grabable = _grabbedObject.transform.root.GetComponent<IGrabable>();
                     _grabable?.Grabbed();
@@ -82,7 +82,7 @@ public class GrabObject : MonoBehaviour
             {
                 _isGrabbing = true;
 
-                _grabbedObject = hitObjects[closest].gameObject;
+                _grabbedObject = hitObjects[closest].transform.root.gameObject;
                 _grabbedObject.transform.parent = ARAVRInput.RHand;
                 // _grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
 
@@ -96,18 +96,12 @@ public class GrabObject : MonoBehaviour
     {
         float currentTime = 0f;
         float finishTime = 0.2f;
-
-        if (_grabbedObject.TryGetComponent(out Rigidbody rigidbody))
-        {
-            rigidbody.isKinematic = true;
-        }
         
-        // _grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
         _prevPos = ARAVRInput.RHandPosition;
         _prevRot = ARAVRInput.RHand.rotation;
 
         Vector3 startLocation = _grabbedObject.transform.position;
-        Vector3 targetLocation = ARAVRInput.RHandPosition + ARAVRInput.RHandDirection * 0.3f;
+        Vector3 targetLocation = ARAVRInput.RHandPosition + ARAVRInput.RHandDirection * 0.1f;
 
         float elapsedRate = currentTime / finishTime;
         while (elapsedRate < 1)

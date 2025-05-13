@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6766769382548086289}
   m_Layer: 13
   m_Name: Colossal_Titan_LagDoll
-  m_TagString: Untagged
+  m_TagString: boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -14,7 +14,7 @@ public class SpawnManager
     
     public void StartWave(WaveInfo waveInfo)
     {
-        GameManager.Instance.LeftTitan += waveInfo.monsters.Count;
+        _scheduledMonster.Clear();
         
         for (int i = 0; i < waveInfo.monsters.Count; i++)
         {

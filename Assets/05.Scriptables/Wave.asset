@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   waves:
   - monsters:
+    - monster: {fileID: 80173397579979137, guid: dd26ea7a6df805149bfb8d2e582ad3ae, type: 3}
+      count: 5
+    waveStartDelay: 3
+    monsterCreateTimeRange: {x: 2, y: 5}
+  - monsters:
     - monster: {fileID: 2880161073967909946, guid: c6b24f73690bc814e9f85ee62ad5d741, type: 3}
       count: 1
     waveStartDelay: 3

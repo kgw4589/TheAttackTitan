@@ -94,6 +94,8 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
     private void Idle()
     {
+        _animator.SetTrigger("Idle");
+        
         _currentTime += Time.deltaTime;
         if (_currentTime > monsterStatus.idleDelayTime)
         {
@@ -209,10 +211,12 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
     public void SliceNeck()
     {
-        if (_state is MonsterState.None)
+        if (_state is MonsterState.None or MonsterState.Die)
         {
             return;
         }
+        
+        _audioSource.PlayOneShot(monsterStatus.neckSliceAudio);
         
         _currentHp = 0;
 
@@ -238,7 +242,7 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
         yield return new WaitForSeconds(monsterStatus.dieLeftTime);
 
-        GameManager.Instance.LeftTitan--;
+        GameManager.Instance.LeftTitan -= 1;
         Destroy(gameObject);
     }
 
