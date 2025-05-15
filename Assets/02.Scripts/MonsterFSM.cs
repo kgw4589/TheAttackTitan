@@ -61,47 +61,39 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
     
     private void Update()
     {
-        // Debug.Log($"Current State : {_state}");
         switch (_state)
         {
-            case MonsterState.Idle :
+            case MonsterState.Idle:
                 Idle();
                 break;
-            
-            case MonsterState.Move :
+
+            case MonsterState.Move:
                 Move();
                 break;
-            
-            case MonsterState.Attack :
+
+            case MonsterState.Attack:
                 Attack();
                 break;
             
-            case MonsterState.Damage :
-                // Damage();
-                break;
-            
-            case MonsterState.Rest :
-                break;
-            
-            case MonsterState.Grabbed :
-                break;
-            
-            case MonsterState.Die :
-                // Die();
-                break;
+            case MonsterState.Damage:
+            case MonsterState.Rest:
+            case MonsterState.Grabbed:
+            case MonsterState.Die:
+            case MonsterState.None:
+                return;
         }
     }
 
     private void Idle()
     {
         _animator.SetTrigger("Idle");
-        
+
         _currentTime += Time.deltaTime;
         if (_currentTime > monsterStatus.idleDelayTime)
         {
             _state = MonsterState.Move;
             _animator.SetTrigger("IdleToMove");
-            
+
             _agent.enabled = true;
         }
     }
@@ -114,7 +106,6 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
         if (Vector3.Distance(transform.position, _tower.position) < monsterStatus.attackRange)
         {
             _state = MonsterState.Attack;
-            
             _agent.enabled = false;
         }
     }
@@ -126,53 +117,52 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
         if (_currentTime > monsterStatus.attackDelayTime)
         {
             _currentTime = 0f;
-
             Tower.Instance.CurrentHp -= monsterStatus.attackDamage;
         }
     }
-    
+
     public void ScratchBody()
     {
-        if (_state is MonsterState.None)
+        if (_state is MonsterState.None or MonsterState.Die or MonsterState.Rest or MonsterState.Grabbed)
         {
             return;
         }
-        
+
         _currentHp--;
 
         if (_currentHp <= 0)
         {
             _state = MonsterState.Rest;
-
+            StopAllCoroutines();
             StartCoroutine(Rest());
-            
             return;
         }
-        
-        _state = MonsterState.Damage;
 
+        _state = MonsterState.Damage;
         StopAllCoroutines();
         StartCoroutine(Damage());
     }
-    
+
     private IEnumerator Damage()
     {
         _agent.enabled = false;
         _audioSource.PlayOneShot(monsterStatus.damagedAudio);
-        
+
         _animator.SetTrigger("Idle");
-        
+
         yield return new WaitForSeconds(monsterStatus.ccTime);
 
-        _state = MonsterState.Idle;
+        _state = MonsterState.Move;
+        _animator.SetTrigger("IdleToMove");
 
         _currentTime = 0;
     }
 
     private IEnumerator Rest()
     {
-        _animator.SetTrigger("MoveToRest");
-        
+        _state = MonsterState.Rest;
+
+        _animator.SetTrigger("Rest");
         _agent.enabled = false;
 
         yield return new WaitForSeconds(monsterStatus.restTime);
@@ -184,16 +174,15 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
         _state = MonsterState.Idle;
         _animator.SetTrigger("RestToIdle");
     }
-    
+
     public void Grabbed()
     {
         _state = MonsterState.Grabbed;
 
         originObject.SetActive(false);
         ragDollObject.SetActive(true);
-        
-        _animator.enabled = false;
 
+        _animator.enabled = false;
         _agent.enabled = false;
     }
 
@@ -201,7 +190,7 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
     {
         originObject.SetActive(true);
         ragDollObject.SetActive(false);
-        
+
         _agent.enabled = true;
         _animator.enabled = true;
 
@@ -210,32 +199,30 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
     public void SliceNeck()
     {
-        if (_state is MonsterState.None or MonsterState.Die)
-        {
-            return;
-        }
-        
         _audioSource.PlayOneShot(monsterStatus.neckSliceAudio);
-        
+
         _currentHp = 0;
 
-        if (_leftLife-- > 0)
+        if (--_leftLife > 0)
         {
             _state = MonsterState.Rest;
+            StopAllCoroutines();
             StartCoroutine(Rest());
-
             return;
         }
-
-        _state = MonsterState.Die;
+        
+        StopAllCoroutines();
         StartCoroutine(Die());
     }
 
-
     private IEnumerator Die()
     {
+        _state = MonsterState.Die;
+
         GameManager.Instance.gameOverAction -= GameOverAction;
-        
+
+        _agent.isStopped = true;
+
         _audioSource.PlayOneShot(monsterStatus.dieAudio);
         _animator.SetTrigger("Die");
 
