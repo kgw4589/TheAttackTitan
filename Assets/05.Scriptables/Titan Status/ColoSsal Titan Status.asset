@@ -22,6 +22,7 @@ MonoBehaviour:
   attackDelayTime: 3
   idleDelayTime: 5
   dieLeftTime: 10
-  damagedAudio: {fileID: 8300000, guid: f1fb1c5f73b74476a8044d93a7c2c6bd, type: 3}
-  neckSliceAudio: {fileID: 8300000, guid: 847730bb3eeb245b3a49862fa9ca3633, type: 3}
-  dieAudio: {fileID: 8300000, guid: 847730bb3eeb245b3a49862fa9ca3633, type: 3}
+  bloodVfx: {fileID: 298101289179366258, guid: 95d2e80a0756a7e43ae4c9db6180e056, type: 3}
+  damagedAudio: {fileID: 8300000, guid: a6af8ab715f4fa141ad6d7d22aaa3a31, type: 3}
+  neckSliceAudio: {fileID: 8300000, guid: 0dff756c627e11e4b8f71d9ee9697cf2, type: 3}
+  dieAudio: {fileID: 8300000, guid: f371db210c8df014a93d2bb82c2da9f6, type: 3}

@@ -25,11 +25,11 @@ public class HittableObject : MonoBehaviour, IDamagable
         switch (myHitType)
         {
             case HitType.NeckSlice :
-                _iTitan.SliceNeck();
+                _iTitan.SliceNeck(hitPoint, normal);
                 break;
             
             case HitType.BodyScratch :
-                _iTitan.ScratchBody();
+                _iTitan.ScratchBody(hitPoint, normal);
                 break;
         }
     }

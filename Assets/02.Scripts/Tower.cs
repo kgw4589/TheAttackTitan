@@ -10,12 +10,16 @@ public class Tower : MonoBehaviour
     public Transform damageUI;
     public Image damageImage;
 
+    public Text towerHpText;
+
+    public AudioClip hitAudio;
+    
+    private AudioSource _audioSource;
+    
     private float _damageTime = 0.1f;
 
     private const int InitialHp = 10;
     private int _currentHp;
-
-    public Text towerHpText;
 
     public int CurrentHp
     {
@@ -48,6 +52,8 @@ public class Tower : MonoBehaviour
         {
             Instance = this;
         }
+
+        _audioSource = GetComponent<AudioSource>();
     }
     
     private void Start()
@@ -68,6 +74,8 @@ public class Tower : MonoBehaviour
     {
         damageImage.enabled = false;
         damageImage.enabled = true;
+        
+        _audioSource.PlayOneShot(hitAudio);
         
         yield return new WaitForSeconds(_damageTime);
 

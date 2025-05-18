@@ -22,6 +22,8 @@ public class MonsterStatusScriptable : ScriptableObject
     public float idleDelayTime = 2f;
 
     public float dieLeftTime = 5f;
+
+    public GameObject bloodVfx;
     
     public AudioClip damagedAudio;
     public AudioClip neckSliceAudio;

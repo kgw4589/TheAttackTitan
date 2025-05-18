@@ -121,7 +121,7 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
         }
     }
 
-    public void ScratchBody()
+    public void ScratchBody(Vector3 hitPoint, Vector3 normal)
     {
         if (_state is MonsterState.None or MonsterState.Die or MonsterState.Rest or MonsterState.Grabbed)
         {
@@ -140,13 +140,15 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
         _state = MonsterState.Damage;
         StopAllCoroutines();
-        StartCoroutine(Damage());
+        StartCoroutine(Damage(hitPoint, normal));
     }
 
-    private IEnumerator Damage()
+    private IEnumerator Damage(Vector3 hitPoint, Vector3 normal)
     {
         _agent.enabled = false;
         _audioSource.PlayOneShot(monsterStatus.damagedAudio);
+
+        StartCoroutine(PlayBloodVfx(monsterStatus.ccTime, hitPoint, normal));
 
         _animator.SetTrigger("Idle");
 
@@ -197,7 +199,7 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
         _state = MonsterState.Idle;
     }
 
-    public void SliceNeck()
+    public void SliceNeck(Vector3 hitPoint, Vector3 normal)
     {
         _audioSource.PlayOneShot(monsterStatus.neckSliceAudio);
 
@@ -212,7 +214,20 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
         }
         
         StopAllCoroutines();
+        StartCoroutine(PlayBloodVfx(monsterStatus.dieLeftTime, hitPoint, normal));
         StartCoroutine(Die());
+    }
+
+    private IEnumerator PlayBloodVfx(float duration, Vector3 hitPoint, Vector3 normal)
+    {
+        GameObject blood = Instantiate(monsterStatus.bloodVfx, transform);
+        blood.SetActive(true);
+        blood.transform.position = hitPoint;
+        blood.transform.forward = normal;
+
+        yield return new WaitForSeconds(duration);
+        
+        Destroy(blood);
     }
 
     private IEnumerator Die()

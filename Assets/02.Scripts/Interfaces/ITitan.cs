@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface ITitan
 {
-    public void ScratchBody();
-    public void SliceNeck();
-    // public void SliceArm();
-    // public void SliceLeg();
+    public void ScratchBody(Vector3 hitPoint, Vector3 normal);
+    public void SliceNeck(Vector3 hitPoint, Vector3 normal);
+    // public void SliceArm(Vector3 hitPoint, Vector3 normal);
+    // public void SliceLeg(Vector3 hitPoint, Vector3 normal);
 }
