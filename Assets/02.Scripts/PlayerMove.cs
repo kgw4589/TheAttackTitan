@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
-    private float speed = 20f;
-    private float jumpPower = 7f;
+    private float _speed = 25f;
+    private float _jumpPower = 13f;
 
     private Rigidbody _rigidbody;
     private Camera _camera;
@@ -39,10 +39,10 @@ public class PlayerMove : MonoBehaviour
         // 점프 처리
         if (ARAVRInput.GetDown(ARAVRInput.Button.One, ARAVRInput.Controller.RTouch))
         {
-            _rigidbody.AddForce(Vector3.up * jumpPower, ForceMode.Impulse);
+            _rigidbody.AddForce(Vector3.up * _jumpPower, ForceMode.Impulse);
         }
 
         // 이동 처리
-        _rigidbody.MovePosition(transform.position + movement * (speed * Time.deltaTime));
+        _rigidbody.MovePosition(transform.position + movement * (_speed * Time.deltaTime));
     }
 }

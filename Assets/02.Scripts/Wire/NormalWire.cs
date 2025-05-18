@@ -14,6 +14,8 @@ public class NormalWire : BaseWire
         if (ARAVRInput.GetDown(ARAVRInput.Button.HandTrigger, WireController.HandControllerDict[myHandType]()))
         {
             currentType = WireType.Shooting;
+            
+            audioSource.PlayOneShot(myStatus.shootAudio);
             ShootWire(handPosition, handDirection);
         }
     }

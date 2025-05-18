@@ -34,7 +34,6 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
     private NavMeshAgent _agent;
     
     private Transform _explosion;
-    private ParticleSystem _expEffect;
     private AudioSource _audioSource;
     private Animator _animator;
 
@@ -52,7 +51,6 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
         _agent.speed = monsterStatus.moveSpeed;
 
         _explosion = GameObject.Find("Explosion").transform;
-        _expEffect = _explosion.GetComponent<ParticleSystem>();
         _audioSource = _explosion.GetComponent<AudioSource>();
 
         _leftLife = monsterStatus.maxLife;
@@ -86,8 +84,6 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
     private void Idle()
     {
-        _animator.SetTrigger("Idle");
-
         _currentTime += Time.deltaTime;
         if (_currentTime > monsterStatus.idleDelayTime)
         {
@@ -150,7 +146,7 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
 
         StartCoroutine(PlayBloodVfx(monsterStatus.ccTime, hitPoint, normal));
 
-        _animator.SetTrigger("Idle");
+        _animator.SetTrigger("MoveToIdle");
 
         yield return new WaitForSeconds(monsterStatus.ccTime);
 
@@ -165,12 +161,12 @@ public class MonsterFSM : MonoBehaviour, ITitan, IGrabable
         _state = MonsterState.Rest;
 
         _animator.SetTrigger("Rest");
-        _agent.enabled = false;
+        _agent.isStopped = true;
 
         yield return new WaitForSeconds(monsterStatus.restTime);
 
         _currentHp = monsterStatus.maxHp;
-        _agent.enabled = true;
+        _agent.isStopped = false;
 
         _currentTime = 0f;
         _state = MonsterState.Idle;

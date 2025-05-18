@@ -490,7 +490,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.06
+      value: 0.8499999
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2207,7 +2207,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.1941185
+        value: 0.1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -2228,7 +2228,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 0}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -2253,7 +2253,7 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -2379,7 +2379,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.06
+      value: 0.8499999
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3248,7 +3248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.06
+      value: 0.8499999
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.z
@@ -3733,7 +3733,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.1941185
+        value: 0.1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -3754,7 +3754,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 0}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
@@ -3779,7 +3779,7 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -4166,7 +4166,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.06
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4668,7 +4668,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.06
+      value: 0.8499999
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.z
@@ -5036,7 +5036,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.25293383
+        value: 0.1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -5058,8 +5058,8 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key1: {r: 1, g: 1, b: 1, a: 0.28131488}
+      key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -5074,17 +5074,17 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 964
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -6259,7 +6259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.06
+      value: 0.8499999
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7055,7 +7055,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.09999499
+        value: 0.1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -7077,8 +7077,8 @@ LineRenderer:
     colorGradient:
       serializedVersion: 2
       key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key1: {r: 1, g: 1, b: 1, a: 0.28131488}
+      key2: {r: 0, g: 0, b: 0, a: 1}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -7093,17 +7093,17 @@ LineRenderer:
       ctime6: 0
       ctime7: 0
       atime0: 0
-      atime1: 65535
-      atime2: 0
+      atime1: 964
+      atime2: 65535
       atime3: 0
       atime4: 0
       atime5: 0
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
-      m_NumAlphaKeys: 2
+      m_NumAlphaKeys: 3
     numCornerVertices: 0
     numCapVertices: 0
     alignment: 0
@@ -7259,7 +7259,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.06
+      value: 0.8499999
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.z
@@ -7321,7 +7321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.06
+      value: 0.8499999
       objectReference: {fileID: 0}
     - target: {fileID: 8325874524205891791, guid: b7eba29822bee7448b7628f194223d65, type: 3}
       propertyPath: m_LocalPosition.z

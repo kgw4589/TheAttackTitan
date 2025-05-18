@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLife: 1
   maxHp: 2
-  restTime: 7
+  restTime: 5
   ccTime: 1
   moveSpeed: 5
   attackDamage: 1

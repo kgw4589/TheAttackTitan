@@ -12,6 +12,8 @@ public class WireStatusScriptable : ScriptableObject
     public float power = 50f;
     public float shootDelay = 1f;
 
+    public AudioClip shootAudio;
+
     [Header("SpringJoint Value")]
     public float maxDistance = 1f;
     public float minDistance = 1f;

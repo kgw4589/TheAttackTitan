@@ -16,9 +16,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 33586743
   wirePointOriginScale: {x: 0.025, y: 0.025, z: 0.025}
-  range: 50
+  range: 65
   power: 500
   shootDelay: 1
+  shootAudio: {fileID: 8300000, guid: 2f48fe479dea7f24e98ad49509237eeb, type: 3}
   maxDistance: 2
   minDistance: 1
   spring: 10

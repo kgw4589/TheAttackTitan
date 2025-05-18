@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(LineRenderer))]
+[RequireComponent(typeof(AudioSource))]
 public class BaseWire : MonoBehaviour
 {
     public WireController.HandType myHandType;
@@ -23,12 +24,16 @@ public class BaseWire : MonoBehaviour
     protected Transform player;
     protected LineRenderer lineRenderer;
 
+    protected AudioSource audioSource;
+
     public virtual void Initialize(Transform player)
     {
         currentType = WireType.Ready;
 
         this.player = player;
         lineRenderer = GetComponent<LineRenderer>();
+
+        audioSource = GetComponent<AudioSource>();
         
         wirePointUI.gameObject.SetActive(false);
     }
