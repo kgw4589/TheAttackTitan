@@ -12,3 +12,5 @@ https://sketchfab.com/3d-models/medieval-house-4-b42578994a334bb1a544c51043276f8
 https://sketchfab.com/3d-models/medieval-house-2-bc9272b74e544db1b93b0ebee8689bf4
 
 초대형 - https://sketchfab.com/3d-models/colossal-titan-e031a57fd4bf411f8e893361676b4544
+
+타워 - https://sketchfab.com/3d-models/attack-on-titan-torhaus-texturiert-b1128d1df43f45e695b025c7c3bc64f6
