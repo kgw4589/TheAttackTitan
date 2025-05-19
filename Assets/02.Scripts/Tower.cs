@@ -13,9 +13,8 @@ public class Tower : MonoBehaviour
     public Text towerHpText;
 
     public AudioClip hitAudio;
-    
-    private AudioSource _audioSource;
-    
+    public AudioClip destroyAudio;
+
     private float _damageTime = 0.1f;
 
     private const int InitialHp = 10;
@@ -27,6 +26,7 @@ public class Tower : MonoBehaviour
         set
         {
             _currentHp = value;
+            GameManager.Instance.audioSource.PlayOneShot(hitAudio);
 
             if (_currentHp < 0)
             {
@@ -40,7 +40,9 @@ public class Tower : MonoBehaviour
             
             if (_currentHp <= 0)
             {
-                Destroy(gameObject);
+                GameManager.Instance.audioSource.PlayOneShot(destroyAudio);
+                
+                gameObject.SetActive(false);
                 GameManager.Instance.LoseGame();
             }
         }
@@ -52,8 +54,6 @@ public class Tower : MonoBehaviour
         {
             Instance = this;
         }
-
-        _audioSource = GetComponent<AudioSource>();
     }
     
     private void Start()
@@ -75,7 +75,7 @@ public class Tower : MonoBehaviour
         damageImage.enabled = false;
         damageImage.enabled = true;
         
-        _audioSource.PlayOneShot(hitAudio);
+        GameManager.Instance.audioSource.PlayOneShot(hitAudio);
         
         yield return new WaitForSeconds(_damageTime);
 

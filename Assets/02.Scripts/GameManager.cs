@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(AudioSource))]
 public class GameManager : Singleton<GameManager>
 {
     public WaveScriptable wave;
@@ -11,6 +12,8 @@ public class GameManager : Singleton<GameManager>
     public Text leftTitanText;
     public Text waveText;
     public Text resultText;
+
+    public AudioSource audioSource;
     
     private int _currentWave = 0;
 
@@ -65,6 +68,8 @@ public class GameManager : Singleton<GameManager>
         _spawnManager.Init();
 
         CurrentWave = 0;
+
+        audioSource = GetComponent<AudioSource>();
     }
     
     private void Start()
